@@ -2,72 +2,89 @@
 <html>
 <head>
     <title>QR Code Generator</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    
-    <style>
-        .card {
-            margin: 0 4px;
-            margin-top: 50px;
-            max-width: 800px;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">QR Code Generator</h5>
-                        <form method="post" action="" id="qr-form">
-                            <div class="form-group">
-                                <label for="text">Your Text</label>
-                                <textarea class="form-control" id="text" name="text" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Generate QR Code</button>
-                        </form>
+    <div class="wrapper">
+        <div class="header"><h1><b>QR Code Generator</b> </h1></div>
+        <div class="form">
+            <form method="post" action="" id="qr-form">
+                <div class="form-group">
+                    <div class="text-content">
+                        <label for="text" class=" mt-2">Content</label>
                     </div>
+                    <textarea class="form-control " id="text" name="text" cols="" rows="4" required placeholder="Enter your text to generate QR Code"></textarea>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="qr-code-result" class=" text-center bg-info">QR code result will appear here</div>
-                        <div id="qr-code-image"></div>
-                    </div>
-                </div>
-            </div>
+                <button type="submit" class="btn btn-primary mt-1 form-control" disabled>Generate QR Code</button>
+            </form>
         </div>
+
+        <!-- SHOWS QR CODE RESULT -->
+        <div class=" mt-3 results qr-code">
+                <div class="qr-image" id="qr-code-image" class="p-3 qrcode"></div>
+        </div>
+        <!-- END OF RESULT -->
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- END OF WRAPPER -->
+    
+    <script src="assets/js/jquery.min.js"></script>
     <script>
-    $(document).ready(function() {
-        // Handle form submission
-        $('#qr-form').submit(function(event) {
-            event.preventDefault(); // Prevent form submission
+       $(document).ready(function() {
+            // Function to enable or disable the button
+            function toggleButton() {
+                var inputVal = $('#text').val();
+                if (inputVal.trim() === '') {
+                    // Input field is empty, disable the button
+                    $('#qr-form button').prop('disabled', true);
+                } else {
+                    // Input field has a value, enable the button
+                    $('#qr-form button').prop('disabled', false);
+                }
+            }
 
-            // Get the form data
-            var formData = $(this).serialize();
+            // Handle input field change event
+            $('#text').on('input', function() {
+                toggleButton();
 
-            // Send an AJAX request to the server
-            $.ajax({
-                type: 'POST',
-                url: 'generate_qr.php', // Replace with the actual PHP script for generating QR code
-                data: formData,
-                success: function(response) {
-                    // Update the result section with the response
-                    $('#qr-code-result').text(response.result);
-                    $('#qr-code-image').html(response.qrImage);
-                },
-                error: function() {
-                    // Handle error
-                    alert('An error occurred while generating the QR code.');
+                // Check if input is blank and remove the 'active' class from the wrapper
+                if ($(this).val().trim() === '') {
+                    $('.wrapper').removeClass('active');
                 }
             });
-        });
-    });
-</script>
+  
+            // Handle form submission
+            $('#qr-form').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+                
+                // Change button text and disable the button
+                var buttonText = $('#qr-form button').text();
+                $('#qr-form button').text('Generating QR Code...').prop('disabled', true);
 
+                // Send an AJAX request to the server
+                $.ajax({
+                    type: 'POST',
+                    url: 'generate_qr.php', // Replace with the actual PHP script for generating QR code
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Update the QR code image with the response
+                        $('#qr-code-image').html(response.qrImage);
+                    },
+                    error: function() {
+                        // Handle error
+                        alert('An error occurred while generating the QR code.');
+                    },
+                    complete: function() {
+                        // Restore button text and enable the button
+                        $('#qr-form button').text(buttonText).prop('disabled', false);
+                    },
+                });
+            });
+        });
+    </script>
     
+    <script src="assets/js/script.js"></script>
 </body>
 </html>

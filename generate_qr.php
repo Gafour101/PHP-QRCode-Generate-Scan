@@ -18,7 +18,7 @@
         'version'      => 5,       // QR code version (size)
         'outputType'   => QRCode::OUTPUT_IMAGE_PNG,  // Output format
         'eccLevel'     => QRCode::ECC_L, // Error correction level (L, M, Q, H)
-        'scale'        => 10,      // Adjust the size of the QR code
+        'scale'        => 5,      // Adjust the size of the QR code
         'moduleValues' => [
             // Adjust the color of the QR code (RGB values)
             'dark' => [0, 0, 0],
@@ -47,4 +47,6 @@
     // Send the response as JSON
     header('Content-Type: application/json');
     echo json_encode($response);
+
+    
 ?>
