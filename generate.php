@@ -1,7 +1,7 @@
 <?php
     
     // Include the necessary QR code library
-    require_once __DIR__.'vendor/autoload.php';
+    require_once 'vendor/autoload.php';
 
     use chillerlan\QRCode\QRCode;
     use chillerlan\QRCode\QROptions;
