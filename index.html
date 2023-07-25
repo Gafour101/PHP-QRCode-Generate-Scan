@@ -80,9 +80,8 @@
                         // Update the QR code image with the response
                         $("#qr-code-image").html(response.qrcode);
                     },
-                    error: function() {
-                        // Handle error
-                        alert("An error occurred while generating the QR code.");
+                    error: function(xhr, status, error) {
+                        alert("An error occurred while generating the QR code: " + error);
                     },
                     complete: function() {
                         // Restore button text and enable the button
