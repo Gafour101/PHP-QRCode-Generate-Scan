@@ -1,8 +1,5 @@
 <?php
     
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-// ... rest of the code
     // Include the necessary QR code library
     require_once 'vendor/autoload.php';
 
