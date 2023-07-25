@@ -9,7 +9,7 @@
     try {
 
         // Relative path to the cache file
-        $cachefile = 'qr-cache'; 
+        $cachefile = 'QRCode-Generate-Scan/qr-cache'; 
 
         // Create QR code options object
         $qrOptions = new QROptions([
