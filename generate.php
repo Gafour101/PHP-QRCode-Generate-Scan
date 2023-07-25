@@ -1,5 +1,5 @@
 <?php
-
+    
     // Include the necessary QR code library
     require_once 'vendor/autoload.php';
 
@@ -7,6 +7,9 @@
     use chillerlan\QRCode\QROptions;
 
     try {
+
+        // Relative path to the cache file
+        $cachefile = __DIR__.'/qr-cache'; 
 
         // Create QR code options object
         $qrOptions = new QROptions([
@@ -20,7 +23,7 @@
                 'light' => [255, 255, 255],
             ],
             'addQuietzone' => false,   // Include quiet zone
-            'cachefile'    => __DIR__.'/qr-cache', // Cache file path (optional)
+            'cachefile'    => $cachefile, // Cache file path (optional)
         ]);
 
         $qrcode = (new QRCode($qrOptions))->render($_POST['text']);
