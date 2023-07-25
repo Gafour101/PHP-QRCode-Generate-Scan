@@ -9,7 +9,7 @@
     try {
 
         // Relative path to the cache file
-        $cachefile = __DIR__.'/qr-cache'; 
+        $cachefile = 'qr-cache'; 
 
         // Create QR code options object
         $qrOptions = new QROptions([
